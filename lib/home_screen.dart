@@ -15,50 +15,41 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BlocBuilder<AppModeCubit, AppModeState>(
                   builder: (context, state) {
                     final imagePath = (state is AppModeLight)
-                        ? "assets/svg_images/cloudy.png"
-                        : "assets/svg_images/night.png";
+                        ? "assets/images/cloudy.png"
+                        : "assets/images/night.png";
                     return Column(
                       children: [
                         Image.asset(
                           imagePath,
                           width: double.infinity,
-                          height: 400,
+                          height: 500,
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          state is AppModeLight ? "Light Mode" : "Dark Mode",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26,
-                          ),
-                        ),
+                        Text(state is AppModeLight ? "Light Mode":"Dark Mode",style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                        ),)
                       ],
                     );
                   },
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 BlocBuilder<AppModeCubit, AppModeState>(
                   builder: (context, state) {
                     final isLightMode = state is AppModeLight;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: SwitchListTile(
-                        title: const Text('Toggle Theme Mode'),
-                        value: isLightMode,
-                        onChanged: (value) {
-                          final newThemeState =
-                              value ? ThemeState.light : ThemeState.dark;
-                          BlocProvider.of<AppModeCubit>(context)
-                              .changeAppMode(newThemeState);
-                        },
-                        activeColor: AppTheme.lightMode.primaryColor,
-                        inactiveThumbColor: AppTheme.darkMode.primaryColor,
-                      ),
+                    return Switch(
+                      value: isLightMode,
+                      onChanged: (value) {
+                        final newThemeState =
+                            value ? ThemeState.light : ThemeState.dark;
+                        BlocProvider.of<AppModeCubit>(context)
+                            .changeAppMode(newThemeState);
+                      },
+                      activeColor: AppTheme.lightMode.primaryColor,
+                      inactiveThumbColor: AppTheme.darkMode.primaryColor,
                     );
                   },
                 ),
